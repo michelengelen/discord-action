@@ -1,7 +1,9 @@
-import axios from 'axios';
-import fs from 'fs';
-import _ from 'lodash';
-import {argv} from 'yargs';
+const axios = require('axios');
+const fs = require('fs');
+const _ = require('lodash');
+const yargs = require('yargs/yargs')
+const { hideBin } = require('yargs/helpers')
+const argv = yargs(hideBin(process.argv)).argv
 
 const REQUIRED_ENV_VARS = [
 	'GITHUB_EVENT_PATH',
@@ -17,9 +19,7 @@ process.env.GITHUB_ACTION = process.env.GITHUB_ACTION || '<missing GITHUB_ACTION
 
 REQUIRED_ENV_VARS.forEach(env => {
 	if (!process.env[env] || !process.env[env].length) {
-		console.error(
-			`Env var ${env} is not defined. Maybe try to set it if you are running the script manually.`,
-		);
+		console.error(`Env var ${env} is not defined. Maybe try to set it if you are running the script manually.`);
 		process.exit(1);
 	}
 });
@@ -32,7 +32,7 @@ let url;
 let payload;
 
 if (argv._.length === 0 && !process.env.DISCORD_EMBEDS) {
-	// If argument and embeds NOT provided, let Discord show the event informations.
+	// If argument and embeds NOT provided, let Discord show the event information.
 	url = `${process.env.DISCORD_WEBHOOK}/github`;
 	payload = JSON.stringify(JSON.parse(eventContent));
 } else {
