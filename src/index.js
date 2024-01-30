@@ -8,9 +8,9 @@ async function main() {
 		 * We need to fetch all the inputs that were provided to our action
 		 * and store them in variables for us to use.
 		 **/
-		const webhookUrl = core.getInput('webhook-url', { required: true });
-		const username = core.getInput('username', { required: true });
-		const avatar_url = core.getInput('avatar-url');
+		const webhookUrl = core.getInput('dc-webhook-url', { required: true });
+		const username = core.getInput('dc-username', { required: true });
+		const avatar_url = core.getInput('dc-avatar-url');
 		const separator = core.getInput('separator');
 
 		console.log('separator', separator);

@@ -1,18 +1,15 @@
 name: 'Discord Action'
 description: 'Adds a Message to a Discord channel via webhooks'
 inputs:
-  webhook-url:
+  dc-webhook-url:
     description: 'The discord webhook URL'
     required: true
-  username:
+  dc-username:
     description: 'The username to use for the message'
-    default: ''
-  avatar-url:
+  dc-avatar-url:
     description: 'The url to grab the avatar picture from'
-    default: ''
   separator:
     description: 'A string to split the body text with'
-    default: ''
 runs:
   using: 'node20'
   main: 'dist/index.js'
