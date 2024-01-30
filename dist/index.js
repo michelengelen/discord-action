@@ -38683,6 +38683,8 @@ async function main() {
 		const avatar_url = core.getInput('avatar-url');
 		const delimiter = core.getInput('delimiter');
 
+		console.log('delimiter', delimiter);
+
 		// get the release data from the publish event
 		const { release } = github.context.payload;
 
@@ -38697,7 +38699,7 @@ async function main() {
 			? release.body
 				.split(delimiter)[0]
 				.trim()
-			: release.body.slice(0, 1950).trim() + ' ...';
+			: release.body.slice(0, 1990 - link.length).trim() + ' ...';
 
 		/**
 		 * parse the intro part of the release changelog
