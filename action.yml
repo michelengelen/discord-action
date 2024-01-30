@@ -10,6 +10,9 @@ inputs:
   avatar-url:
     description: 'The url to grab the avatar picture from'
     required: false
+  delimiter:
+    description: 'A string to split the body text with'
+    required: false
 runs:
   using: 'node16'
   main: 'dist/index.js'

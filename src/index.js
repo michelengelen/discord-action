@@ -11,6 +11,7 @@ async function main() {
 		const webhookUrl = core.getInput('webhook-url', { required: true });
 		const username = core.getInput('username');
 		const avatar_url = core.getInput('avatar-url');
+		const delimiter = core.getInput('delimiter');
 
 		// get the release data from the publish event
 		const { release } = github.context.payload;
@@ -18,14 +19,26 @@ async function main() {
 		// add a mention for everyone
 		const mention = 'Hi @everyone';
 
-		// parse the intro part of the release changelog
-		const highlights = release.body
-			.split('\r\n\r\n### Data Grid\r\n\r\n')[0]
-			.replace(/\s*<img.*?>\s*/g, '\r\n') // remove image tags
-			.replace(/\(#(\d{4,})\)/g, '[#$1](https://github.com/mui/mui-x/issues/$1)'); // replace issue IDs with github links
-
 		// generate the links for the release
 		const link = `Check out the full [changelog](${release.html_url}) at GitHub!`;
+
+		// split the full body with the delimiter (or with max chars and add an ellipsis)
+		const rawHighlights = delimiter
+			? release.body
+				.split(delimiter)[0]
+				.trim()
+			: release.body.slice(0, 1950).trim() + ' ...';
+
+		/**
+		 * parse the intro part of the release changelog
+		 * 1. step: remove image tags
+		 * 2. step: replace issue IDs with github links
+		 * 3. step: parse the github aliases and link them to the profile
+		 **/
+		const highlights = rawHighlights
+			.replace(/\s*<img.*?>\s*/g, '\r\n')
+			.replace(/\(#(\d{4,})\)/g, '[#$1](https://github.com/mui/mui-x/issues/$1)')
+			.replace(/\s@(.*?)\s/g, '[@$1](https://github.com/$1)');
 
 		const payload = {
 			content: [mention, highlights, link].join('\r\n\r\n').replace(/\((http.*?)\)/g, '(<$1>)'),

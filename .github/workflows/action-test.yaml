@@ -5,8 +5,17 @@ on:
     types: [ published, unpublished, created, edited, deleted, prereleased, released ]
 
 jobs:
-
-  annotate-pr:
+  delimiter-test:
+    runs-on: ubuntu-latest
+    name: Send DC message
+    steps:
+      - name: Send message
+        uses: michelengelen/discord-message-action@main
+        with:
+          webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          username: MUI Releases
+          delimiter: <!--// END OF HIGHLIGHTS //-->
+  max-char-test:
     runs-on: ubuntu-latest
     name: Send DC message
     steps:
