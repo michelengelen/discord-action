@@ -38,7 +38,7 @@ async function main() {
 		const highlights = rawHighlights
 			.replace(/\s*<img.*?>\s*/g, '\r\n')
 			.replace(/\(#(\d{4,})\)/g, '([#$1](https://github.com/mui/mui-x/issues/$1))')
-			.replace(/@(.*?)/g, '[@$1](https://github.com/$1)');
+			.replace(/@(.*?)\s/g, '[@$1](https://github.com/$1)');
 
 		const payload = {
 			content: [mention, highlights, link].join('\r\n\r\n').replace(/\((http.*?)\)/g, '(<$1>)'),
