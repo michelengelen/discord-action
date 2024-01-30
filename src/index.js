@@ -11,13 +11,11 @@ function main() {
 		 * and store them in variables for us to use.
 		 **/
 		const webhookUrl = core.getInput('webhook-url', { required: true });
-		const repo = core.getInput('repo', { required: true });
-		const pr_number = core.getInput('pr_number', { required: true });
-		const token = core.getInput('token', { required: true });
 
 		const payload = github.context.payload;
 
 		console.log('payload', payload)
+		console.log('webhook url', webhookUrl)
 	}
 	catch (error) {
 		core.setFailed(error.message);
