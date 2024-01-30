@@ -6,13 +6,10 @@ inputs:
     required: true
   username:
     description: 'The username to use for the message'
-    required: false
   avatar-url:
     description: 'The url to grab the avatar picture from'
-    required: false
   delimiter:
     description: 'A string to split the body text with'
-    required: false
 runs:
   using: 'node20'
   main: 'dist/index.js'
