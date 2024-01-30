@@ -2,8 +2,14 @@ name: 'Discord Action'
 description: 'Adds a Message to a Discord channel via webhooks'
 inputs:
   webhook-url:
-    description: 'The Discord webhook'
+    description: 'The discord webhook URL'
     required: true
+  username:
+    description: 'The username to use for the message'
+    required: false
+  avatar-url:
+    description: 'The url to grab the avatar picture from'
+    required: false
 runs:
   using: 'node16'
   main: 'dist/index.js'
