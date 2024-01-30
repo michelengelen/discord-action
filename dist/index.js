@@ -38679,7 +38679,7 @@ async function main() {
 		 * and store them in variables for us to use.
 		 **/
 		const webhookUrl = core.getInput('webhook-url', { required: true });
-		const username = core.getInput('username');
+		const username = core.getInput('username', { required: true });
 		const avatar_url = core.getInput('avatar-url');
 		const separator = core.getInput('separator');
 

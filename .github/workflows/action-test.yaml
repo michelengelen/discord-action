@@ -4,6 +4,7 @@ on:
   release:
     types: [ published, unpublished, created, edited, deleted, prereleased, released ]
 
+
 jobs:
   delimiter-test:
     runs-on: ubuntu-latest
@@ -13,5 +14,5 @@ jobs:
         uses: michelengelen/discord-message-action@main
         with:
           webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          username: 'MUI Releases'
+          username: MUI Releases
           separator: '<!--//-->'
