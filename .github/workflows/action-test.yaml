@@ -2,7 +2,7 @@ name: Discord Message
 
 on:
   release:
-    types: [published, unpublished]
+    types: [published, unpublished, created, edited, deleted, prereleased, released]
 
 jobs:
 
