@@ -11,9 +11,9 @@ async function main() {
 		const webhookUrl = core.getInput('webhook-url', { required: true });
 		const username = core.getInput('username');
 		const avatar_url = core.getInput('avatar-url');
-		const delimiter = core.getInput('delimiter');
+		const separator = core.getInput('separator');
 
-		console.log('delimiter', delimiter);
+		console.log('separator', separator);
 
 		// get the release data from the publish event
 		const { release } = github.context.payload;
@@ -24,10 +24,10 @@ async function main() {
 		// generate the links for the release
 		const link = `Check out the full [changelog](${release.html_url}) at GitHub!`;
 
-		// split the full body with the delimiter (or with max chars and add an ellipsis)
-		const rawHighlights = delimiter
+		// split the full body with the separator (or with max chars and add an ellipsis)
+		const rawHighlights = separator
 			? release.body
-				.split(delimiter)[0]
+				.split(separator)[0]
 				.trim()
 			: release.body.slice(0, 1990 - link.length).trim() + ' ...';
 

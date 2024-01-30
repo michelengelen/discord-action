@@ -13,5 +13,5 @@ jobs:
         uses: michelengelen/discord-message-action@main
         with:
           webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          username: MUI Releases
-          delimiter: "<!--//-->"
+          username: 'MUI Releases'
+          separator: '<!--//-->'

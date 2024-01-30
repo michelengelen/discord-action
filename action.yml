@@ -8,7 +8,7 @@ inputs:
     description: 'The username to use for the message'
   avatar-url:
     description: 'The url to grab the avatar picture from'
-  delimiter:
+  separator:
     description: 'A string to split the body text with'
 runs:
   using: 'node20'
