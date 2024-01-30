@@ -2,7 +2,7 @@ name: Discord Message
 
 on:
   release:
-    types: [ published, unpublished, created, edited, deleted, prereleased, released ]
+    types: [ prereleased ]
 
 
 jobs:
@@ -13,6 +13,6 @@ jobs:
       - name: Send message
         uses: michelengelen/discord-message-action@main
         with:
-          dc-webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          dc-username: MUI Releases
+          webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          username: MUI Releases
           separator: '<!--//-->'

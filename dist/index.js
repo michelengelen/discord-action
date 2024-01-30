@@ -38668,8 +38668,8 @@ module.exports = JSON.parse('{"application/1d-interleaved-parityfec":{"source":"
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
-const core = __nccwpck_require__(2186);
 const github = __nccwpck_require__(5438);
+const core = __nccwpck_require__(2186);
 const axios = __nccwpck_require__(8757);
 
 async function main() {
@@ -38678,12 +38678,10 @@ async function main() {
 		 * We need to fetch all the inputs that were provided to our action
 		 * and store them in variables for us to use.
 		 **/
-		const webhookUrl = core.getInput('dc-webhook-url', { required: true });
-		const username = core.getInput('dc-username', { required: true });
-		const avatar_url = core.getInput('dc-avatar-url');
+		const webhookUrl = core.getInput('webhook-url', { required: true });
+		const username = core.getInput('username', { required: true });
+		const avatar_url = core.getInput('avatar-url');
 		const separator = core.getInput('separator');
-
-		console.log('separator', separator);
 
 		// get the release data from the publish event
 		const { release } = github.context.payload;
@@ -38709,15 +38707,16 @@ async function main() {
 		 **/
 		const highlights = rawHighlights
 			.replace(/\s*<img.*?>\s*/g, '\r\n')
-			.replace(/\(#(\d{4,})\)/g, '[#$1](https://github.com/mui/mui-x/issues/$1)')
-			.replace(/\s@(.*?)\s/g, '[@$1](https://github.com/$1)');
+			.replace(/\(#(\d{4,})\)/g, '([#$1](https://github.com/mui/mui-x/issues/$1))')
+			.replace(/@(.*?)/g, '[@$1](https://github.com/$1)');
 
 		const payload = {
 			content: [mention, highlights, link].join('\r\n\r\n').replace(/\((http.*?)\)/g, '(<$1>)'),
 			username: username || null,
 			avatar_url: avatar_url || null,
 			allowed_mentions: {
-				parse: ['everyone', 'users'],
+				// make sure only the `@everyone` is being parsed into a mention
+				parse: ['everyone'],
 			},
 			embeds: [],
 		};
