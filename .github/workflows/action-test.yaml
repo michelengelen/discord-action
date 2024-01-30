@@ -1,0 +1,16 @@
+name: PR metadata annotation
+
+on:
+  issues:
+    types: [opened, reopened]
+
+jobs:
+
+  annotate-pr:
+    runs-on: ubuntu-latest
+    name: Send DC message
+    steps:
+      - name: Send message
+        uses: michelengelen/discord-message-action@main
+        with:
+          webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}

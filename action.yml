@@ -1,7 +1,7 @@
 name: 'Discord Action'
 description: 'Adds a Message to a Discord channel via webhooks'
 inputs:
-  webhook:
+  webhook-url:
     description: 'The Discord webhook'
     required: true
 runs:
