@@ -27,7 +27,10 @@ async function main() {
 			? release.body
 				.split(separator)[0]
 				.trim()
-			: release.body.slice(0, 1990 - link.length).trim() + ' ...';
+			: release.body;
+
+		// check if the highlights are longer than the 2000 character limit!
+		const shortenedHighlights = rawHighlights.length + link.length > 1990 ? rawHighlights.slice(0, 1990 - link.length).trim() + ' ...' : rawHighlights;
 
 		/**
 		 * parse the intro part of the release changelog
@@ -35,7 +38,7 @@ async function main() {
 		 * 2. step: replace issue IDs with github links
 		 * 3. step: parse the github aliases and link them to the profile
 		 **/
-		const highlights = rawHighlights
+		const highlights = shortenedHighlights
 			.replace(/\s*<img.*?>\s*/g, '\r\n')
 			.replace(/\(#(\d{4,})\)/g, '([#$1](https://github.com/mui/mui-x/issues/$1))')
 			.replace(/@(.*?)\s/g, '[@$1](https://github.com/$1)');
