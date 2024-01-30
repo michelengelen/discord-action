@@ -1,4 +1,4 @@
-name: PR metadata annotation
+name: Discord Message
 
 on:
   issues:
