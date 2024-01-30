@@ -55903,7 +55903,7 @@ const axios = __nccwpck_require__(8757);
 const fs = __nccwpck_require__(7147);
 const _ = __nccwpck_require__(250);
 
-function main() {
+async function main() {
 	try {
 		/**
 		 * We need to fetch all the inputs that were provided to our action
@@ -55911,77 +55911,46 @@ function main() {
 		 **/
 		const webhookUrl = core.getInput('webhook-url', { required: true });
 
+		// get the release data from the publish event
 		const { release } = github.context.payload;
 
-		console.log('payload', JSON.stringify(github.context.payload))
-		console.log('webhook url', webhookUrl)
-	}
-	catch (error) {
+		// add a mention for everyone
+		const mention = 'Hi @everyone';
+
+		// remove images from the intro
+		const highlights = release.body.split('\r\n\r\n### Data Grid\r\n\r\n')[0].replace(/\s*<img.*?>\s*/g, '\r\n');
+
+		// generate the links for the release
+		const link = `Check out the full [changelog](${release.html_url}) at GitHub!`;
+
+		const payload = {
+			content: [mention, highlights, link].join('\r\n\r\n'),
+			username: 'MUI Releases',
+			// avatar_url: '',
+			allowed_mentions: {
+				parse: ['everyone'],
+			},
+		};
+
+		console.log('Sending message ...');
+		await axios.post(`${webhookUrl}?wait=true`, payload, {
+			headers: {
+				'Content-Type': 'application/json',
+				'X-GitHub-Event': process.env.GITHUB_EVENT_NAME,
+			},
+		});
+		console.log('Message sent ! Shutting down ...');
+	} catch (error) {
 		core.setFailed(error.message);
 	}
 }
 
-main()
-
-// const eventContent = fs.readFileSync(process.env.GITHUB_EVENT_PATH, 'utf8');
-//
-// _.templateSettings.interpolate = /{{([\s\S]+?)}}/g;
-//
-// let url;
-// let payload;
-//
-// if (argv._.length === 0 && !process.env.DISCORD_EMBEDS) {
-// 	// If argument and embeds NOT provided, let Discord show the event information.
-// 	url = `${process.env.DISCORD_WEBHOOK}/github`;
-// 	payload = JSON.stringify(JSON.parse(eventContent));
-// } else {
-// 	// Otherwise, if the argument or embeds are provided, let Discord override the message.
-// 	const args = argv._.join(' ');
-// 	const message = _.template(args)({
-// 		...process.env,
-// 		EVENT_PAYLOAD: JSON.parse(eventContent),
-// 	});
-//
-// 	let embedsObject;
-// 	if (process.env.DISCORD_EMBEDS) {
-// 		try {
-// 			embedsObject = JSON.parse(process.env.DISCORD_EMBEDS);
-// 		} catch (parseErr) {
-// 			console.error('Error parsing DISCORD_EMBEDS :' + parseErr);
-// 			process.exit(1);
-// 		}
-// 	}
-//
-// 	url = process.env.DISCORD_WEBHOOK;
-// 	payload = JSON.stringify({
-// 		content: message,
-// 		...(process.env.DISCORD_EMBEDS && {embeds: embedsObject}),
-// 		...(process.env.DISCORD_USERNAME && {
-// 			username: process.env.DISCORD_USERNAME,
-// 		}),
-// 		...(process.env.DISCORD_AVATAR && {
-// 			avatar_url: process.env.DISCORD_AVATAR,
-// 		}),
-// 	});
-// }
-//
-// // Curl -X POST -H "Content-Type: application/json" --data "$(cat $GITHUB_EVENT_PATH)" $DISCORD_WEBHOOK/github
-//
-// (async () => {
-// 	console.log('Sending message ...');
-// 	await axios.post(`${url}?wait=true`, payload, {
-// 		headers: {
-// 			'Content-Type': 'application/json',
-// 			'X-GitHub-Event': process.env.GITHUB_EVENT_NAME,
-// 		},
-// 	});
-// 	console.log('Message sent ! Shutting down ...');
-// 	process.exit(0);
-// })().catch(err => {
-// 	console.error('Error :', err.response.status, err.response.statusText);
-// 	console.error('Message :', err.response ? err.response.data : err.message);
-// 	process.exit(1);
-// });
+main().catch(error => {
+		console.error('Error:', error.response.status, error.response.statusText);
+		console.error('Message:', error.response ? error.response.data : error.message);
+		core.setFailed(error.message);
+	},
+);
 
 })();
 
