@@ -12,9 +12,9 @@ function main() {
 		 **/
 		const webhookUrl = core.getInput('webhook-url', { required: true });
 
-		const payload = github.context.payload;
+		const { release } = github.context.payload;
 
-		console.log('payload', payload)
+		console.log('payload', JSON.stringify(github.context.payload))
 		console.log('webhook url', webhookUrl)
 	}
 	catch (error) {
