@@ -7,17 +7,17 @@ on:
 jobs:
   delimiter-test:
     runs-on: ubuntu-latest
-    name: Send DC message
+    name: Send DC message with delimiter
     steps:
       - name: Send message
         uses: michelengelen/discord-message-action@main
         with:
           webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
           username: MUI Releases
-          delimiter: <!--// END OF HIGHLIGHTS //-->
+          delimiter: "<!--// END OF HIGHLIGHTS //-->"
   max-char-test:
     runs-on: ubuntu-latest
-    name: Send DC message
+    name: Send DC message with max char
     steps:
       - name: Send message
         uses: michelengelen/discord-message-action@main
