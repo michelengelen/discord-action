@@ -29,6 +29,6 @@
 		"typescript": "^5.3.3"
 	},
 	"lint-staged": {
-		"*.{js,ts,jsx,tsx}": "eslint --fix"
+		"!(dist/**/*)*.{js,ts,jsx,tsx}": "eslint --fix"
 	}
 }
