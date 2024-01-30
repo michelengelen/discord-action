@@ -1,8 +1,8 @@
 name: Discord Message
 
 on:
-  issues:
-    types: [opened, reopened]
+  release:
+    types: [published, unpublished]
 
 jobs:
 
