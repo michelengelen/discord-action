@@ -22,13 +22,13 @@ async function main() {
 		const highlights = release.body
 			.split('\r\n\r\n### Data Grid\r\n\r\n')[0]
 			.replace(/\s*<img.*?>\s*/g, '\r\n') // remove image tags
-			.replace(/\(#(\d{4,})\)/g, '(#$1)[https://github.com/mui/mui-x/issues/$1]'); // replace issue IDs with github links
+			.replace(/\(#(\d{4,})\)/g, '[#$1](https://github.com/mui/mui-x/issues/$1)'); // replace issue IDs with github links
 
 		// generate the links for the release
 		const link = `Check out the full [changelog](${release.html_url}) at GitHub!`;
 
 		const payload = {
-			content: [mention, highlights, link].join('\r\n\r\n'),
+			content: [mention, highlights, link].join('\r\n\r\n').replace(/\((http.*?)\)/g, '(<$1>)'),
 			username: username || null,
 			avatar_url: avatar_url || null,
 			allowed_mentions: {
