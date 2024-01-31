@@ -38714,7 +38714,9 @@ async function main() {
 			.replace(/@(.*?)\s/g, '[@$1](https://github.com/$1)');
 
 		const payload = {
-			content: [mention, highlights, link].join('\r\n\r\n').replace(/\((http.*?)\)/g, '(<$1>)'),
+			content: [mention, highlights, link]
+				.join('\r\n\r\n')
+				.replace(/\((http.*?)\)/g, '(<$1>)'),
 			username: username || null,
 			avatar_url: avatar_url || null,
 			allowed_mentions: {
